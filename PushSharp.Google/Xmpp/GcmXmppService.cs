@@ -6,7 +6,7 @@ namespace PushSharp.Google
 {
     public class GcmXmppServiceConnectionFactory : IServiceConnectionFactory<GcmXmppNotification>
     {
-        public GcmXmppServiceConnectionFactory (GcmXmppConfiguration configuration)
+        public GcmXmppServiceConnectionFactory(GcmXmppConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -15,33 +15,33 @@ namespace PushSharp.Google
 
         public IServiceConnection<GcmXmppNotification> Create()
         {
-            return new GcmXmppServiceConnection (Configuration);
+            return new GcmXmppServiceConnection(Configuration);
         }
     }
 
     public class GcmXmppServiceBroker : ServiceBroker<GcmXmppNotification>
     {
-        public GcmXmppServiceBroker (GcmXmppConfiguration configuration) : base (new GcmXmppServiceConnectionFactory (configuration))
+        public GcmXmppServiceBroker(GcmXmppConfiguration configuration) : base(new GcmXmppServiceConnectionFactory(configuration))
         {
         }
     }
 
     public class GcmXmppServiceConnection : IServiceConnection<GcmXmppNotification>
-    {   
-        readonly GcmXmppConnection connection;
+    {
+        private readonly GcmXmppConnection connection;
 
-        public GcmXmppServiceConnection (GcmXmppConfiguration configuration)
+        public GcmXmppServiceConnection(GcmXmppConfiguration configuration)
         {
-            connection = new GcmXmppConnection (configuration);
+            connection = new GcmXmppConnection(configuration);
         }
 
-        public async Task Send (GcmXmppNotification notification)
+        public async Task Send(GcmXmppNotification notification)
         {
-            var completableNotification = new GcmXmppConnection.CompletableNotification (notification);
+            var completableNotification = new GcmXmppConnection.CompletableNotification(notification);
 
-            connection.Send (completableNotification);
+            await connection.SendAsync(completableNotification);
 
-            var ex = await completableNotification.WaitForComplete ().ConfigureAwait (false);
+            var ex = await completableNotification.WaitForComplete().ConfigureAwait(false);
 
             if (ex != null)
                 throw ex;

@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace PushSharp.Google
 {
@@ -20,42 +19,57 @@ namespace PushSharp.Google
         [JsonProperty("error", NullValueHandling = NullValueHandling.Ignore)]
         public string Error
         {
-            get 
+            get
             {
                 switch (ResponseStatus)
                 {
-                case GcmResponseStatus.Ok:
-                    return null;
-                case GcmResponseStatus.Unavailable:
-                    return "Unavailable";
-                case GcmResponseStatus.QuotaExceeded:
-                    return "QuotaExceeded";
-                case GcmResponseStatus.NotRegistered:
-                    return "NotRegistered";
-                case GcmResponseStatus.MissingRegistrationId:
-                    return "MissingRegistration";
-                case GcmResponseStatus.MissingCollapseKey:
-                    return "MissingCollapseKey";
-                case GcmResponseStatus.MismatchSenderId:
-                    return "MismatchSenderId";
-                case GcmResponseStatus.MessageTooBig:
-                    return "MessageTooBig";
-                case GcmResponseStatus.InvalidTtl:
-                    return "InvalidTtl";
-                case GcmResponseStatus.InvalidRegistration:
-                    return "InvalidRegistration";
-                case GcmResponseStatus.InvalidDataKey:
-                    return "InvalidDataKey";
-                case GcmResponseStatus.InternalServerError:
-                    return "InternalServerError";
-                case GcmResponseStatus.DeviceQuotaExceeded:
-                    return null;
-                case GcmResponseStatus.CanonicalRegistrationId:
-                    return null;
-                case GcmResponseStatus.Error:
-                    return "Error";
-                default:
-                    return null;
+                    case GcmResponseStatus.Ok:
+                        return null;
+
+                    case GcmResponseStatus.Unavailable:
+                        return "Unavailable";
+
+                    case GcmResponseStatus.QuotaExceeded:
+                        return "QuotaExceeded";
+
+                    case GcmResponseStatus.NotRegistered:
+                        return "NotRegistered";
+
+                    case GcmResponseStatus.MissingRegistrationId:
+                        return "MissingRegistration";
+
+                    case GcmResponseStatus.MissingCollapseKey:
+                        return "MissingCollapseKey";
+
+                    case GcmResponseStatus.MismatchSenderId:
+                        return "MismatchSenderId";
+
+                    case GcmResponseStatus.MessageTooBig:
+                        return "MessageTooBig";
+
+                    case GcmResponseStatus.InvalidTtl:
+                        return "InvalidTtl";
+
+                    case GcmResponseStatus.InvalidRegistration:
+                        return "InvalidRegistration";
+
+                    case GcmResponseStatus.InvalidDataKey:
+                        return "InvalidDataKey";
+
+                    case GcmResponseStatus.InternalServerError:
+                        return "InternalServerError";
+
+                    case GcmResponseStatus.DeviceQuotaExceeded:
+                        return null;
+
+                    case GcmResponseStatus.CanonicalRegistrationId:
+                        return null;
+
+                    case GcmResponseStatus.Error:
+                        return "Error";
+
+                    default:
+                        return null;
                 }
             }
         }
